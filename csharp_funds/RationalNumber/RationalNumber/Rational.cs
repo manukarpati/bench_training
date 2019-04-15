@@ -18,10 +18,17 @@ namespace RationalNumber
                 throw new InvalidOperationException();
             }
 
-            int gcd = Gcd(numerator, denominator);
+            int gcd = GreatestCommonFactor(numerator, denominator);
             this.numerator = numerator/gcd; 
             this.denominator = denominator/gcd;
 
+        }
+
+        private static int GreatestCommonFactor(int x, int y) => y == 0 ? x : GreatestCommonFactor(y, x % y);
+
+        private static int LeastCommonMultiple(int x, int y)
+        {
+            return (x / GreatestCommonFactor(x, y)) * y;
         }
 
         public int CompareTo(Rational other)
@@ -42,7 +49,37 @@ namespace RationalNumber
             return result;
         }
 
-        private static int Gcd(int x, int y) => y == 0 ? x : Gcd(y, x % y);
+        public static Rational operator +(Rational a, Rational b)
+        {
+            int lcm = LeastCommonMultiple(a.denominator, b.denominator);
+            return new Rational(a.numerator * (lcm / a.denominator) + b.numerator * (lcm / b.denominator), lcm);
+        }
 
+        public static Rational operator -(Rational a, Rational b)
+        {
+            int lcm = LeastCommonMultiple(a.denominator, b.denominator);
+            return new Rational(a.numerator * (lcm / a.denominator) - b.numerator * (lcm / b.denominator), lcm);
+
+        }
+
+        public static Rational operator *(Rational a, Rational b)
+        {
+            return new Rational(a.numerator * b.numerator, a.denominator * b.denominator);
+        }
+
+        public static Rational operator /(Rational a, Rational b)
+        {
+            return new Rational(a.numerator * b.denominator, a.denominator * b.numerator);
+        }
+
+        public static Rational operator -(Rational a)
+        {
+            return new Rational(-a.numerator, a.denominator);
+        }
+
+        public static implicit operator Rational (int x)
+        {
+            return new Rational(x, 1);
+        }
     }
 }
