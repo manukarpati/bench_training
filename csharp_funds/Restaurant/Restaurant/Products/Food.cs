@@ -10,9 +10,7 @@ namespace Epam.Mep.Restaurant
         {
         }
 
-        public double CalculateHappiness(double happiness)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract double CalculateHappiness(double happiness);
+     
     }
 }
