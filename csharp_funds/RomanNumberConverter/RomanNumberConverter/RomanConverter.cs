@@ -26,7 +26,7 @@ namespace RomanNumberConverter
         {
             if (number < 1 || number > 3999)
             {
-                return "invalid number";
+                throw  new ArgumentOutOfRangeException();
             }
 
             string result = "";
