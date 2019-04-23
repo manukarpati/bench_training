@@ -15,7 +15,7 @@ namespace RationalNumber
         {
             if (denominator == 0)
             {
-                throw new InvalidOperationException();
+                throw new DivideByZeroException();
             }
 
             int gcd = GreatestCommonFactor(numerator, denominator);

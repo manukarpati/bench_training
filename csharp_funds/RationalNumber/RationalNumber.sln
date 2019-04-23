@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RationalNumber", "RationalNumber\RationalNumber.csproj", "{78F552CD-C0A3-4007-AF27-E1942F5BA5E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RationalNumberTest", "RationalNumberTest\RationalNumberTest.csproj", "{E4224142-541B-4BAC-8108-F98407D6D449}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RationalNumberTest", "RationalNumberTest\RationalNumberTest.csproj", "{E4224142-541B-4BAC-8108-F98407D6D449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RationalNumberUnitTest", "RationalNumberUnitTest\RationalNumberUnitTest.csproj", "{B467A9D4-28CC-4C7B-A481-9FA35031FA50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E4224142-541B-4BAC-8108-F98407D6D449}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4224142-541B-4BAC-8108-F98407D6D449}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4224142-541B-4BAC-8108-F98407D6D449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B467A9D4-28CC-4C7B-A481-9FA35031FA50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B467A9D4-28CC-4C7B-A481-9FA35031FA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B467A9D4-28CC-4C7B-A481-9FA35031FA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B467A9D4-28CC-4C7B-A481-9FA35031FA50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
