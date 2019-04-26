@@ -42,7 +42,7 @@ namespace RomanNumberConverter
                         result += romanValues.Values[i];
                     }
 
-                    number = number % romanValues.Keys[i];
+                    number %= romanValues.Keys[i];
                 }
             }
 
