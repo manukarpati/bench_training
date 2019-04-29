@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TimeSlot
+namespace Time.Slot
 {
     class Program
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TimeSlot
+namespace Time.Slot
 {
     public class TimeSlot : IEnumerable
     {
