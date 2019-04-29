@@ -18,8 +18,16 @@ namespace StringArray
 
         static void Main(string[] args)
         {
+            var wordcount = strings.Select(s => s.Count(c => c==' ')+1);
+
+            var vowelList = new List<char>() { 'a', 'e', 'i', 'o', 'u' };
+            var startsWithaVowel = strings.Select(s => s.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
+                                           .Select(s => s.Where(e => vowelList.Any(v => v == e[0])))  ;
+
+         
 
 
+            Console.ReadKey();
 
         }
     }
