@@ -32,6 +32,14 @@ namespace StringArray
                                                     strings.Max(ss => ss.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)
                                                         .Select(sss => sss.Length).ToArray().Max()));
 
+            var longestWordWithOrderBy = strings.SelectMany(s => s.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
+                                            .OrderByDescending(s => s.Length)
+                                            .Take(1)
+                                            .ToList()[0];
+
+            Console.WriteLine(longestWord);
+            Console.WriteLine(longestWordWithOrderBy);
+
 
             //Display the average word count of the sentences
             var averageWordCount = strings.Select(s => s.Count(c => c == ' ') + 1).ToArray().Average();
