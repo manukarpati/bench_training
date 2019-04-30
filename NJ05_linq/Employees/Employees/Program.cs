@@ -30,6 +30,36 @@ namespace Employees
 
 
             //Display the name of the employee who earn the most
+            var richestEmployee = employees.OrderByDescending(e => e.Salary)
+                                            .Take(1)
+                                            .Select(e => e.Name)
+                                            .FirstOrDefault();
+            Console.WriteLine(richestEmployee);
+            Console.WriteLine("***");
+
+            //Display the name of the employees who earn less than the company average.
+            var poorEmployees = employees.Where(e => e.Salary < employees.Average(es => es.Salary)).ToList();
+            poorEmployees.ForEach(e => Console.WriteLine(e.Name));
+            Console.WriteLine("***");
+
+
+            //Sort the employees by their salaries in an ascending order
+            var employeesSortedBySalary = employees.OrderBy(e => e.Salary);
+
+            //Display the name of employees who earn the same amount and sort the result by salaries then names in an ascending order
+            var sameSalaryEmployees = employees.GroupBy(e=> e.Salary)
+                                               .Where(g => g.Count() > 1)
+                                               .OrderBy(g => g.FirstOrDefault().Salary)
+                                               .Select(g => g.OrderBy(e => e.Name))
+                                               .Select(g => g.Select(e => e.Name))
+                                               ;
+
+            sameSalaryEmployees.ToList().ForEach(l => l.ToList().ForEach(n => Console.WriteLine(n)));
+            Console.WriteLine("*****");
+
+
+
+            Console.ReadKey();
 
         }
     }
