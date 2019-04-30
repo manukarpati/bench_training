@@ -19,40 +19,28 @@ namespace StringArray
         static void Main(string[] args)
         {
             //Calculate of the word count of each sentences
-            var wordcount = strings.Select(s => s.Count(c => c==' ')+1);
+            var wordcount = StringArrayLinq.CountWords(strings);
 
             //Split the sentences into an array of words and select the ones that start with a vowel (y is not a vowel in this case)
-            var vowelList = new List<char>() { 'a', 'e', 'i', 'o', 'u' };
-            var startsWithaVowel = strings.Select(s => s.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
-                                           .Select(s => s.Where(e => vowelList.Any(v => v == e[0])))  ;
+            var startsWithaVowel = StringArrayLinq.SelectWordsThatStartsWithAVowel(strings);
 
             //Find the longest word
-            var longestWord = strings.SelectMany(s => s.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
-                                            .FirstOrDefault(s => s.Length == 
-                                                    strings.Max(ss => ss.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-                                                        .Select(sss => sss.Length).ToArray().Max()));
-
-            var longestWordWithOrderBy = strings.SelectMany(s => s.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
-                                            .OrderByDescending(s => s.Length)
-                                            .Take(1)
-                                            .ToList()[0];
-
-            Console.WriteLine(longestWord);
-            Console.WriteLine(longestWordWithOrderBy);
-
+            var longestWord = StringArrayLinq.FindTheLongestWord(strings);
+            var longestWordWithOrderBy = StringArrayLinq.FindTheLongestWordWithOrdering(strings);
 
             //Display the average word count of the sentences
-            var averageWordCount = strings.Select(s => s.Count(c => c == ' ') + 1).ToArray().Average();
+            var averageWordCount = StringArrayLinq.CountAverageWordCount(strings);
             Console.WriteLine(averageWordCount);
 
             //Put the words into alphabetical order and remove the duplicates (case insensitive)
-            var wordsInAlphabeticalOrder = strings.SelectMany(s => s.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
-                                                   .Select(s => s.ToLower())
-                                                   .ToHashSet()
-                                                   .OrderBy(s => s);
+            var wordsInAlphabeticalOrder = StringArrayLinq.SelectAndOrderDistinctWords(strings);
 
             Console.ReadKey();
 
         }
+
+
+
+
     }
 }
