@@ -93,22 +93,42 @@ namespace XboxStatistics
 
         static string ListAllOfMyStatisticsInBindingOfIsaac()
         {
-            var result = Xbox.GameStats
-                                        ;
 
-            return result.ToString();
+            var result = (from stat in Xbox.GameStats
+                          join title in Xbox.MyGames
+                          on stat.Key equals title.TitleId
+                          where title.Name.Contains("Binding of Isaac")
+                          select stat.Value)
+                          .FirstOrDefault()
+                          .Select(s => $"{s.Name} = {s.Value}");
+
+            return string.Join(Environment.NewLine, result);
+
         }
 
         static string HowManyAchievementsDidIEarnPerYear()
         {
             //HINT: unlocked achievements have an "Achieved" progress state
-            throw new NotImplementedException();
+
+            var result = Xbox.Achievements.Values.SelectMany(a => a)
+                                                 .Where(a => a.ProgressState.Equals("Achieved"))
+                                                 .GroupBy(a => a.Progression.TimeUnlocked.Year)
+                                                 .OrderBy(g => g.Key)
+                                                 .Select(g => $"{g.Key} : {g.Count()}");
+
+            return string.Join(Environment.NewLine, result);
         }
 
         static string ListAllOfMyGamesWhereIHaveEarnedARareAchievement()
         {
             //HINT: rare achievements have a rarity category called "Rare"
-            throw new NotImplementedException();
+            var result = Xbox.Achievements.Values.SelectMany(a => a)
+                                                 .Where(a => a.ProgressState.Equals("Achieved"))
+                                                 .GroupBy(a => a.Progression.TimeUnlocked.Year)
+                                                 .OrderBy(g => g.Key)
+                                                 .Select(g => $"{g.Key} : {g.Count()}");
+
+            return string.Join(Environment.NewLine, result);
         }
 
         static string ListTheTop3GamesWhereIHaveEarnedTheMostRareAchievements()
