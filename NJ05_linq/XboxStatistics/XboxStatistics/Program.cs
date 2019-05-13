@@ -10,6 +10,13 @@ namespace XboxStatistics
 
         static void Main(string[] args)
         {
+
+            Nullable<int> x = null;
+            Console.WriteLine(x.GetValueOrDefault());
+            Console.WriteLine(x);
+
+
+
             Question("How many games do I have?", HowManyGamesDoIHave);
             Question("How many games have I completed?", HowManyGamesHaveICompleted);
             Question("How much Gamerscore do I have?", HowMuchGamescoreDoIHave);
