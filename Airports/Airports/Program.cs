@@ -1,12 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
+using Airports.FileHandling;
+
+
 
 namespace Airports
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
+            new DefaultDataReader().ReadDataFromDefaultFile();
+            var result = AirportData.Airports;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
