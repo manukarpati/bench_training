@@ -11,8 +11,7 @@ namespace Airports
 
         static void Main(string[] args)
         {
-
-            new DefaultDataReader().ReadDataFromDefaultFile();
+            new DataParser().ParseDataFromFile();
             var result = AirportData.Airports;
         }
     }
