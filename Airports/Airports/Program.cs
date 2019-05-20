@@ -22,6 +22,7 @@ namespace Airports
             Console.WriteLine("****");
             FindNearestAirportByUserEnteredGPSData();
             Console.WriteLine("****");
+            FindAirportByIATACode();
 
 
             Console.ReadKey();
@@ -31,12 +32,14 @@ namespace Airports
         {
 
             var groupedList = AirportData.Airports.
-                                            Join(AirportData.Countries, 
-                                                    a => a.CountryId, 
-                                                    c => c.Id, 
-                                                    (a, c) => new {
+                                            Join(AirportData.Countries,
+                                                    a => a.CountryId,
+                                                    c => c.Id,
+                                                    (a, c) => new
+                                                    {
                                                         CountryName = c.Name,
-                                                        AirportId = a.Id })
+                                                        AirportId = a.Id
+                                                    })
                                            .GroupBy(c => c.CountryName)
                                            .OrderBy(c => c.Key)
                                            .ToList();
@@ -51,7 +54,8 @@ namespace Airports
                                             Join(AirportData.Cities,
                                                     a => a.CityId,
                                                     c => c.Id,
-                                                    (a, c) => new {
+                                                    (a, c) => new
+                                                    {
                                                         CityName = c.Name,
                                                         CountryId = a.CountryId,
                                                         AirportId = a.Id
@@ -115,6 +119,54 @@ namespace Airports
             return new CoordinateModel(int.Parse(coordinates[0]), int.Parse(coordinates[1]));
         }
 
+        static void FindAirportByIATACode()
+        {
+            string enteredData;
+            do
+            {
+                Console.WriteLine("Enter a valid IATA code (3 uppercase letters)");
+                enteredData = Console.ReadLine();
+
+            } while (!ValidateIATACode(enteredData));
+
+            if (AirportData.Airports.Any(a => a.IATACode == enteredData))
+            {
+
+                var fullAirport = (from ap in AirportData.Airports
+                                   join co in AirportData.Countries
+                                      on ap.CountryId equals co.Id
+                                   join ci in AirportData.Cities
+                                      on ap.CityId equals ci.Id
+                                   where ap.IATACode == enteredData
+                                   select new
+                                   {
+                                       AirportName = ap.Name,
+                                       CityName = ci.Name,
+                                       CountryName = co.Name,
+                                       ap.TimeZoneName
+                                   })
+                                    .First();
+
+
+                DateTimeOffset airportTime = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(fullAirport.TimeZoneName));
+
+                Console.WriteLine($"{fullAirport.AirportName} – {fullAirport.CityName}, {fullAirport.CountryName} " +
+                    $"– Local time: {airportTime.DateTime.ToShortTimeString()} ({airportTime.Offset})");
+            }
+            else
+            {
+                Console.WriteLine("Cannot find airport");
+            }
+
+        }
+
+        static bool ValidateIATACode(string entered)
+        {
+            string pattern = @"^[A-Z]{3}$";
+
+            return new Regex(pattern).IsMatch(entered);
+
+        }
     }
 
 
