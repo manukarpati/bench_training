@@ -4,14 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Utilities;
 
 namespace Airports.FileHandling
 {
     public class DataParser
     {
-        private string cityFileName = "cities.txt";
-        private string airportFileName = "airports.txt";
-        private string countryFileName = "countries.txt";
+
 
 
 
@@ -21,7 +20,10 @@ namespace Airports.FileHandling
 
             if (IsAllFileExists())
             {
-                ParseDataFromJson<City>(cityFileName, AirportData.Cities);
+                AirportData.Cities = ParseDataFromJson<City>(Constants.CityFileName);
+                AirportData.Countries = ParseDataFromJson<Country>(Constants.CountryFileName);
+                AirportData.Airports = ParseDataFromJson<Airport>(Constants.AirportFileName);
+
             }
             else
             {
@@ -35,7 +37,7 @@ namespace Airports.FileHandling
 
         private bool IsAllFileExists()
         {
-            return IsFileExists(countryFileName) && IsFileExists(cityFileName) && IsFileExists(airportFileName);
+            return IsFileExists(Constants.CountryFileName) && IsFileExists(Constants.CityFileName) && IsFileExists(Constants.AirportFileName);
         }
         private bool IsFileExists(string fileName)
         {
@@ -43,15 +45,11 @@ namespace Airports.FileHandling
             return File.Exists(path);
         }
 
-        private bool ParseDataFromJson<T>(string fileName, List<T> collection)
+        private List<T> ParseDataFromJson<T>(string fileName)
         {
             string path = Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\Files\", fileName);
             var text = File.ReadAllText(path);
-            collection = JsonConvert.DeserializeObject<List<T>>(text);
-
-
-
-            return true;
+            return JsonConvert.DeserializeObject<List<T>>(text);
         }
 
     }

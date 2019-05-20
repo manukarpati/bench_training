@@ -89,10 +89,12 @@ namespace Airports.FileHandling
 
             var city = CreateCityFromString(words[2], country.Id, timezoneName);
             
+
+            
             return new Airport()
             {
                 Id = airportId,
-                Name = words[1],
+                Name = ParseAirportName(words[1]),
                 CityId = city.Id,
                 CountryId = country.Id,
                 IATACode = words[4],
@@ -143,7 +145,7 @@ namespace Airports.FileHandling
 
         private City CreateCityFromString(string name, int countryId, string timezone)
         {
-            City city = AirportData.Cities.FirstOrDefault(c => c.Name == name);
+            City city = AirportData.Cities.FirstOrDefault(c => c.Name == name & countryId == c.CountryId);
             if (city == null)
             {
                 city = new City()
@@ -159,6 +161,20 @@ namespace Airports.FileHandling
             return city;
         }
 
+        private string ParseAirportName(string fullname)
+        {
+            string parsedName = fullname;
+
+            var pattern = new Regex( @"[a|A]irport");
+
+            if (pattern.IsMatch(fullname))
+            {
+                parsedName = pattern.Split(fullname)[0];
+            }
+
+            return parsedName;
+        } 
+
         private bool ReadTimeZonesFromFile()
         {
             string defaultPath = Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\Files\timezoneinfo.json");
@@ -172,9 +188,9 @@ namespace Airports.FileHandling
 
         private bool SerializeIntoJson()
         {
-            WriteJsonToFile(AirportData.Cities, "cities.txt");
-            WriteJsonToFile(AirportData.Countries, "countries.txt");
-            WriteJsonToFile(AirportData.Airports, "airports.txt");
+            WriteJsonToFile(AirportData.Cities, Constants.CityFileName);
+            WriteJsonToFile(AirportData.Countries, Constants.CountryFileName);
+            WriteJsonToFile(AirportData.Airports, Constants.AirportFileName);
 
             return true;
         }
