@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Airports.FileHandling;
 using System.Linq;
-
-
+using System.Text.RegularExpressions;
+using Elect.Location;
+using Elect.Location.Models;
 
 namespace Airports
 {
@@ -18,6 +19,8 @@ namespace Airports
             ListAllCountriesWithAirportNumber();
             Console.WriteLine("****");
             ListCitiesWithMostAirport();
+            Console.WriteLine("****");
+            FindNearestAirportByUserEnteredGPSData();
             Console.WriteLine("****");
 
 
@@ -62,6 +65,55 @@ namespace Airports
 
         }
 
+        static void CalculateClosestAirport(CoordinateModel entered)
+        {
+            var minDistance = AirportData.Airports
+                                        .Min(a => Elect.Location.Coordinate.DistanceUtils.DistanceHelper
+                                                .GetDistance(entered, new CoordinateModel(a.Location.Longitude, a.Location.Latitude), UnitOfLengthModel.Kilometer));
+
+            var nearest = AirportData.Airports.
+                                            Join(AirportData.Cities,
+                                                    a => a.CityId,
+                                                    c => c.Id,
+                                                    (a, c) => new
+                                                    {
+                                                        CityName = c.Name,
+                                                        AirportName = a.FullName,
+                                                        Location = a.Location
+                                                    })
+                                           .FirstOrDefault(a => Elect.Location.Coordinate.DistanceUtils.DistanceHelper
+                                                .GetDistance(entered, new CoordinateModel(a.Location.Longitude, a.Location.Latitude), UnitOfLengthModel.Kilometer)
+                                                == minDistance);
+            Console.WriteLine($"The nearest airport is {nearest.AirportName} in {nearest.CityName}");
+        }
+
+        static void FindNearestAirportByUserEnteredGPSData()
+        {
+            string enteredData;
+            do
+            {
+                Console.WriteLine("Enter a valid GPS coordinate (longitude, latitude, altitude: use . for decimals, separate with ,)");
+                enteredData = Console.ReadLine();
+
+            } while (!ValidGPSCoordinate(enteredData));
+
+            var coordinate = CreateCoordinateFromUserData(enteredData);
+
+            CalculateClosestAirport(coordinate);
+        }
+
+        static bool ValidGPSCoordinate(string enteredData)
+        {
+            string pattern = @"^(-?[\d]+(\.[\d]*)?,\s*){2}-?[\d]+(\.[\d]*)?$";
+
+            return new Regex(pattern).IsMatch(enteredData);
+        }
+
+        static CoordinateModel CreateCoordinateFromUserData(string entered)
+        {
+            var coordinates = entered.Split(",");
+            return new CoordinateModel(int.Parse(coordinates[0]), int.Parse(coordinates[1]));
+        }
 
     }
 
