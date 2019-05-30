@@ -14,16 +14,17 @@ namespace Airports
         static void Main(string[] args)
         {
             new DataParser().ParseDataFromFile();
-            var result = AirportData.Airports;
 
             ListAllCountriesWithAirportNumber();
             Console.WriteLine("****");
+
             ListCitiesWithMostAirport();
             Console.WriteLine("****");
+
             FindNearestAirportByUserEnteredGPSData();
             Console.WriteLine("****");
-            FindAirportByIATACode();
 
+            FindAirportByIATACode();
 
             Console.ReadKey();
         }
