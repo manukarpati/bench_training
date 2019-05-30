@@ -10,13 +10,15 @@ namespace Restaurants
 {
     public class Chef
     {
-        HashSet<CookableIngredient> ThingsToPutInTheOven = new HashSet<CookableIngredient>();
-        string oventype = "";
+        private HashSet<CookableIngredient> ThingsToPutInTheOven = new HashSet<CookableIngredient>();
+        private string oventype = "";
 
-        List<Food> foodList;
-        List<Ingredient> ingredients;
+        private List<Food> foodList;
+        private List<Ingredient> ingredients;
 
-        bool isCookingInProcess = false;
+        private bool isCookingInProcess = false;
+
+        private const int ovenCapacity = 4;
 
         public async Task PlaceOrder(List<Food> foodList)
         {
@@ -77,7 +79,7 @@ namespace Restaurants
             else
             {
 
-                if (ThingsToPutInTheOven.Count < 4 && i.Name == oventype)
+                if (ThingsToPutInTheOven.Count < ovenCapacity && i.Name == oventype)
                 {
                    ThingsToPutInTheOven.Add(ci);
                    ingredients.Remove(ci);
@@ -90,7 +92,7 @@ namespace Restaurants
         {
             bool shouldStart = false;
 
-            if(ThingsToPutInTheOven.Count == 4)
+            if(ThingsToPutInTheOven.Count == ovenCapacity)
             {
                 shouldStart = true;
             }
@@ -103,15 +105,14 @@ namespace Restaurants
                 shouldStart = true;
             }
 
-
             return shouldStart;
         }
 
         private async void StartOven()
         {
             isCookingInProcess = true;
-                await Restaurant.Oven.Fry<CookableIngredient>(ThingsToPutInTheOven);
-                ThingsToPutInTheOven.Clear();
+            await Restaurant.Oven.Fry(ThingsToPutInTheOven);
+            ThingsToPutInTheOven.Clear();
             oventype = "";
             isCookingInProcess = false;
 
@@ -120,8 +121,8 @@ namespace Restaurants
         private void Serve(Food food)
         {
             foodList.Remove(food);
-            Console.ForegroundColor = ConsoleColor.Green;
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"[{Stopwatch.Elapsed}] {food.Name} served");
 
         }

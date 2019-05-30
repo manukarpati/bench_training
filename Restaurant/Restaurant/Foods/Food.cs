@@ -10,6 +10,6 @@ namespace Restaurants
 
         public List<Ingredient> ingredientList = new List<Ingredient>();
 
-        public bool IsReady => ingredientList !=null ?  ingredientList.All(i => i.IsReady) : false;
+        public bool IsReady => !ingredientList.Any(i => i.IsReady ==false);
     }
 }

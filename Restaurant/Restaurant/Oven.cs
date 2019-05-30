@@ -13,8 +13,10 @@ namespace Restaurants
 
         public async Task Fry<T>(HashSet<T> ingredientsInOven) where T: CookableIngredient
         {
+                var ingredient = ingredientsInOven.First();
+
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
-            var ingredient = ingredientsInOven.First();
                 Console.WriteLine($"[{Stopwatch.Elapsed}] Frying started with {ingredientsInOven.Count} {ingredient.Name}");
 
                 TimeSpan cookingTime = ingredientsInOven.First().CookTime;
