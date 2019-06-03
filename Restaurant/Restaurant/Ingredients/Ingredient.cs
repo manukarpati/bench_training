@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static Restaurants.Restaurant;
 
@@ -20,7 +21,7 @@ namespace Restaurants.Ingredients
             await Task.Delay(PrepTime);
             IsPrepared = true;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"[{Stopwatch.Elapsed}] {this.Name} prepared");
+            Console.WriteLine($"[{Stopwatch.Elapsed}] {this.Name} prepared on [{Thread.CurrentThread.ManagedThreadId}]");
 
             if (!NeedsCooking)
             {

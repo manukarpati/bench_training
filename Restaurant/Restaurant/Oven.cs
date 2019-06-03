@@ -5,6 +5,7 @@ using Restaurants.Ingredients;
 using System.Linq;
 using System.Threading.Tasks;
 using static Restaurants.Restaurant;
+using System.Threading;
 
 namespace Restaurants
 {
@@ -17,7 +18,7 @@ namespace Restaurants
 
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"[{Stopwatch.Elapsed}] Frying started with {ingredientsInOven.Count} {ingredient.Name}");
+                Console.WriteLine($"[{Stopwatch.Elapsed}] Frying started with {ingredientsInOven.Count} {ingredient.Name} on [{Thread.CurrentThread.ManagedThreadId}]");
 
                 TimeSpan cookingTime = ingredientsInOven.First().CookTime;
 
@@ -28,7 +29,7 @@ namespace Restaurants
                     i.Cook();
                 }
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"[{Stopwatch.Elapsed}] Frying {ingredient.Name} finished");
+                Console.WriteLine($"[{Stopwatch.Elapsed}] Frying {ingredient.Name} finished on [{Thread.CurrentThread.ManagedThreadId}]");
 
         }
     }

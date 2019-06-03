@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Restaurants.Ingredients;
 using static Restaurants.Restaurant;
@@ -27,7 +28,7 @@ namespace Restaurants
 
             await Cook();
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine($"[{Stopwatch.Elapsed}] Order completed");
+            Console.WriteLine($"[{Stopwatch.Elapsed}] Order completed on [{Thread.CurrentThread.ManagedThreadId}]");
 
         }
 
@@ -43,6 +44,7 @@ namespace Restaurants
                 {
                         await ingredients.FirstOrDefault(i => i.IsPrepared == false).Prepare();
                 }
+
                 if (ingredients.Any(i => i.IsReady == false && i.IsPrepared))
                 {
                     PutInTheOven(ingredients.FirstOrDefault(i => i.IsReady == false && i.NeedsCooking));
@@ -56,7 +58,7 @@ namespace Restaurants
 
                 if (foodList.Any(i => i.IsReady))
                 {
-                    Serve(foodList.FirstOrDefault(i => i.IsReady));
+                   Serve(foodList.FirstOrDefault(i => i.IsReady));
                 }
             }
         } 
@@ -123,7 +125,7 @@ namespace Restaurants
             foodList.Remove(food);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"[{Stopwatch.Elapsed}] {food.Name} served");
+            Console.WriteLine($"[{Stopwatch.Elapsed}] {food.Name} served on [{Thread.CurrentThread.ManagedThreadId}]");
 
         }
 

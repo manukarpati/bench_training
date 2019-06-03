@@ -1,7 +1,9 @@
 ﻿using Restaurant.Foods;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using static Restaurants.Restaurant;
 
 namespace Restaurants
 {
@@ -30,13 +32,15 @@ namespace Restaurants
                 new Hamburger(BurgerTypes.Full),
 
             };
+            Console.WriteLine($"[{Stopwatch.Elapsed}] Ordering started on [{Thread.CurrentThread.ManagedThreadId}]");
+
 
             Chef gordon = new Chef();
             await gordon.PlaceOrder(orderList);
 
 
 
-            Console.WriteLine("Hello World!");
+            Console.WriteLine($"Customers are happy on [{Thread.CurrentThread.ManagedThreadId}]");
         }
     }
 }
