@@ -10,7 +10,6 @@ namespace Restaurant.Ingredients
     {
         public Ketchup()
         {
-            NeedsCooking = false;
             PrepTime = new TimeSpan(0);
             Name = "Ketchup";
 

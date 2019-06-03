@@ -11,7 +11,6 @@ namespace Restaurant.Ingredients
 
         public Fries()
         {
-            NeedsCooking = true;
             PrepTime = new TimeSpan(0, 0, 0, 0, 100);
             CookTime = new TimeSpan(0, 0, 0, 0, 2000);
             Name = "Fries";

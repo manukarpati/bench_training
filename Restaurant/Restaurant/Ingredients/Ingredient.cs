@@ -9,7 +9,7 @@ namespace Restaurants.Ingredients
 {
     public abstract class Ingredient
     {
-        public bool NeedsCooking { get; protected set; }
+        public bool NeedsCooking => this is CookableIngredient;
         public TimeSpan PrepTime { get; protected set; }
         public string Name { get; protected set; }
 

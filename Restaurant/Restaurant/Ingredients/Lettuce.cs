@@ -9,7 +9,6 @@ namespace Restaurant.Ingredients
     {
         public Lettuce()
         {
-            NeedsCooking = false;
             PrepTime = new TimeSpan(0, 0, 0, 0, 200);
             Name = "Lettuce";
 

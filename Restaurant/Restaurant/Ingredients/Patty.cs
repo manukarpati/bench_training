@@ -11,7 +11,6 @@ namespace Restaurant.Ingredients
 
         public Patty()
         {
-            NeedsCooking = true;
             PrepTime = new TimeSpan(0, 0, 0, 0, 100);
             CookTime = new TimeSpan(0, 0, 0, 0, 1000);
             Name = "Patty";

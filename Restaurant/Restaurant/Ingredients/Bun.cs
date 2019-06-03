@@ -9,7 +9,6 @@ namespace Restaurants.Ingredients
     {
         public Bun()
         {
-            NeedsCooking = false;
             PrepTime = new TimeSpan(0, 0, 0, 0, 200);
             Name = "Bun";
         }

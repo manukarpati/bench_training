@@ -42,34 +42,39 @@ namespace Restaurants
 
                 if (ingredients.Any(i => i.IsPrepared == false))
                 {
-                        await ingredients.FirstOrDefault(i => i.IsPrepared == false).Prepare();
+                    var ing = ingredients.FirstOrDefault(i => i.IsPrepared == false);
+                    await ing.Prepare();
+                    if (ing.IsReady)
+                    {
+                        ingredients.Remove(ing);
+                    }
+
                 }
 
-                if (ingredients.Any(i => i.IsReady == false && i.IsPrepared))
+                if (!isCookingInProcess)
                 {
-                    PutInTheOven(ingredients.FirstOrDefault(i => i.IsReady == false && i.NeedsCooking));
-                }
+                    if (ingredients.Any(i => i.IsReady == false && i.IsPrepared))
+                    {
+                        PutInTheOven(ingredients.FirstOrDefault(i => i.IsReady == false && i.NeedsCooking));
+                    }
 
-                if (ShouldIStartOven() && !isCookingInProcess)
-                {
-                    StartOven();
+                    if (ShouldIStartOven())
+                    {
+                        StartOven();
+                    }
+
                 }
 
 
                 if (foodList.Any(i => i.IsReady))
                 {
-                   Serve(foodList.FirstOrDefault(i => i.IsReady));
+                    Serve(foodList.FirstOrDefault(i => i.IsReady));
                 }
             }
-        } 
+        }
 
         private void PutInTheOven(Ingredient i)
         {
-            if (isCookingInProcess || i.IsReady)
-            {
-                return;
-            }
-
             var ci = i as CookableIngredient;
 
             if (ThingsToPutInTheOven.Count == 0)
@@ -83,9 +88,9 @@ namespace Restaurants
 
                 if (ThingsToPutInTheOven.Count < ovenCapacity && i.Name == oventype)
                 {
-                   ThingsToPutInTheOven.Add(ci);
-                   ingredients.Remove(ci);
-                   
+                    ThingsToPutInTheOven.Add(ci);
+                    ingredients.Remove(ci);
+
                 }
             }
         }
@@ -94,11 +99,11 @@ namespace Restaurants
         {
             bool shouldStart = false;
 
-            if(ThingsToPutInTheOven.Count == ovenCapacity)
+            if (ThingsToPutInTheOven.Count == ovenCapacity)
             {
                 shouldStart = true;
             }
-            else if(ThingsToPutInTheOven.Count == 0)
+            else if (ThingsToPutInTheOven.Count == 0)
             {
                 shouldStart = false;
             }

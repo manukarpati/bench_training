@@ -10,7 +10,6 @@ namespace Restaurant.Ingredients
     {
         public Cheese()
         {
-            NeedsCooking = false;
             PrepTime = new TimeSpan(0);
             Name = "Cheese";
 

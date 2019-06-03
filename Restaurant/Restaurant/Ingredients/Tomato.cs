@@ -10,7 +10,6 @@ namespace Restaurant.Ingredients
     {
         public Tomato()
         {
-            NeedsCooking = false;
             PrepTime = new TimeSpan(0, 0, 0, 0, 200);
             Name = "Tomato";
 
